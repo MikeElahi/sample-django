@@ -27,3 +27,17 @@ Timelogs also have a *computed* **status** value which is:
 - A Timelog with NOT NULL `duration` is considered **FINISHED**
 - A Timelog with NULL `duration` and NOT NULL `start_at` and NOT NULL `finish_at` is considered **FINISHED**
 - A Timelog with NULL `duration` and NULL `finish_at` is considered **ONGOING**
+
+## Endpoints
+| Method | Endpoint             | Success Status |
+| ------ | -------------------- | -------------- |
+| GET    | /api/v1/projects     | 200            |
+| POST   | /api/v1/projects     | 200            |
+| GET    | /api/v1/projects/:id | 200            |
+| PUT    | /api/v1/projects/:id | 204            |
+| DELETE | /api/v1/projects/:id | 204            |
+| GET    | /api/v1/timelogs     | 200            |
+| POST   | /api/v1/timelogs     | 200            |
+| GET    | /api/v1/timelogs/:id | 200            |
+| PUT    | /api/v1/timelogs/:id | 204            |
+| DELETE | /api/v1/timelogs/:id | 204            |

@@ -1,5 +1,6 @@
 from django.urls import include, path
 from rest_framework import routers
+from rest_framework.authtoken import views
 from .views import ProjectViewSet, UserViewSet, TimeLogViewSet
 
 router = routers.DefaultRouter()
@@ -9,5 +10,6 @@ router.register(r'timelogs', TimeLogViewSet, basename='timelog')
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('auth', views.obtain_auth_token),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

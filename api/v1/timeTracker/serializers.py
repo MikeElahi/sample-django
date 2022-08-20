@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from .models import Project
 from .models import TimeLog
 
@@ -10,7 +10,7 @@ class ProjectPrimaryKeyRelatedField(serializers.PrimaryKeyRelatedField):
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = get_user_model()
         fields = ['id', 'username', 'email']
 
 class ProjectSerializer(serializers.ModelSerializer):

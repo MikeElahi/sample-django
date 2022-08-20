@@ -2,6 +2,7 @@ name: Tests
 on: [pull_request, push]
 jobs:
   test_project:
+    name: Run All Tests With Pylint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

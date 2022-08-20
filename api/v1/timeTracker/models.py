@@ -7,6 +7,9 @@ class Project(models.Model):
     slug = models.SlugField()
     users = models.ManyToManyField(User)
 
+    def __str__(self):
+        return self.title
+
 class TimeLog(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)

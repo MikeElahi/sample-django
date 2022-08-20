@@ -1,13 +1,16 @@
+from django.utils import timezone
+from unittest import TestCase
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 from rest_framework.test import APITestCase
 from rest_framework.test import APIClient
-from .models import Project
+from .models import Project, TimeLog
 from .serializers import ProjectSerializer
 
 
 class ProjectsAPITest(APITestCase):
     """"Integration Tests for Projects API"""
+
     def setUp(self) -> None:
         self.user = get_user_model().objects.create(username='TestingUser')
         self.project = Project.objects.create(slug='TestingProject')
@@ -58,3 +61,25 @@ class ProjectsAPITest(APITestCase):
         assert response.status_code == 200
         self.assertTrue(Project.objects.filter(
             users=self.user, title__exact=data['title']).exists())
+
+
+class TimeLogStatusTest(TestCase):
+    CASES = [
+        ["FINISHED", {'duration': 10}],
+        ["FINISHED", {'start_at': timezone.now().replace(minute=0),
+         'finish_at': timezone.now().replace(minute=50)}],
+        ['ONGOING', {'start_at': timezone.now()}],
+        ['INVALID', {}],
+        ['INVALID', {'duration': None, 'start_at': None}],
+    ]
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.user = get_user_model().objects.create(username='TestingUser')
+        self.project = Project.objects.create(slug='TestingProject')
+        self.project.users.add(self.user)
+
+    def test_can_calculate_status(self):
+        for case in self.CASES:
+            timelog = TimeLog.objects.create(project=self.project, user=self.user, **case[1])
+            assert timelog.status() == case[0]

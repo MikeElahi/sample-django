@@ -26,6 +26,7 @@ class TimeLog(models.Model):
         ordering = ['id']
 
     def status(self):
+        """Determine the status of TimeLog"""
         if self.duration is not None or (self.start_at is not None and self.finish_at is not None):
             return "FINISHED"
         if self.duration is None and self.start_at is not None:

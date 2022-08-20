@@ -1,9 +1,9 @@
-from django.utils import timezone
 from unittest import TestCase
-from django.urls import reverse
-from django.contrib.auth import get_user_model
 from rest_framework.test import APITestCase
 from rest_framework.test import APIClient
+from django.utils import timezone
+from django.urls import reverse
+from django.contrib.auth import get_user_model
 from .models import Project, TimeLog
 from .serializers import ProjectSerializer
 
@@ -80,6 +80,7 @@ class TimeLogStatusTest(TestCase):
         self.project.users.add(self.user)
 
     def test_can_calculate_status(self):
+        """Unit Test on Computed Status Field"""
         for case in self.CASES:
             timelog = TimeLog.objects.create(project=self.project, user=self.user, **case[1])
             assert timelog.status() == case[0]

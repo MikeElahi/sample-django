@@ -142,5 +142,5 @@ TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 NOSE_ARGS = [
     '--with-coverage',
     '--cover-html',
-    '--cover-package=api.v1.timeTracker',
+    '--cover-package=api.v1.time_tracker',
 ]

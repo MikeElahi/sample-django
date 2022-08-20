@@ -1,13 +1,15 @@
 from django.urls import reverse
+from django.contrib.auth import get_user_model
 from rest_framework.test import APITestCase
 from rest_framework.test import APIClient
-from django.contrib.auth.models import User
 from .models import Project
 from .serializers import ProjectSerializer
 
-class ProjectsTest(APITestCase):
+
+class ProjectsAPITest(APITestCase):
+    """"Integration Tests for Projects API"""
     def setUp(self) -> None:
-        self.user = User.objects.create(username='TestingUser')
+        self.user = get_user_model().objects.create(username='TestingUser')
         self.project = Project.objects.create(slug='TestingProject')
         self.project.users.add(self.user)
 
@@ -15,16 +17,21 @@ class ProjectsTest(APITestCase):
         self.client.force_authenticate(user=self.user)
 
     def test_api_can_index_projects(self):
+        """API GET /projects/"""
         response = self.client.get(reverse('project-list'))
         assert response.status_code == 200
-        self.assertEqual(ProjectSerializer(self.project).data, response.json()['results'][0])
+        self.assertEqual(ProjectSerializer(self.project).data,
+                         response.json()['results'][0])
 
     def test_api_can_get_project(self):
-        response = self.client.get(reverse('project-detail', args=[self.project.pk]))
+        """API GET /projects/:id"""
+        response = self.client.get(
+            reverse('project-detail', args=[self.project.pk]))
         assert response.status_code == 200
         self.assertEqual(ProjectSerializer(self.project).data, response.json())
 
     def test_api_can_create_project(self):
+        """API POST /projects/"""
         response = self.client.post(reverse('project-list'), {
             'title': 'Testing!',
             'slug': 'a-sample-slug',
@@ -34,15 +41,20 @@ class ProjectsTest(APITestCase):
         self.assertEqual(Project.objects.filter(users=self.user).count(), 2)
 
     def test_api_can_delete_project(self):
-        response = self.client.delete(reverse('project-detail', args=[self.project.pk]))
+        """API DELETE /projects/:id"""
+        response = self.client.delete(
+            reverse('project-detail', args=[self.project.pk]))
         assert response.status_code == 204
         self.assertEqual(Project.objects.filter(users=self.user).count(), 0)
 
     def test_api_can_update_project(self):
+        """API PUT /projects/:id"""
         data = ProjectSerializer(self.project).data
         data['title'] = 'New Title'
 
-        response = self.client.put(reverse('project-detail', args=[self.project.pk]), data)
+        response = self.client.put(
+            reverse('project-detail', args=[self.project.pk]), data)
 
         assert response.status_code == 200
-        self.assertTrue(Project.objects.filter(users=self.user, title__exact=data['title']).exists())
+        self.assertTrue(Project.objects.filter(
+            users=self.user, title__exact=data['title']).exists())

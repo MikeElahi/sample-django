@@ -1,9 +1,8 @@
-from django.contrib.auth.models import User
-from rest_framework import generics, viewsets
+from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from django.contrib.auth import get_user_model
 from .models import Project, TimeLog
 from .serializers import ProjectSerializer, UserSerializer, TimeLogSerializer
-
 
 class ProjectViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -15,7 +14,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
 class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminUser]
     serializer_class = UserSerializer
-    queryset = User.objects.all()
+    queryset = get_user_model().objects.all()
 
 class TimeLogViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]

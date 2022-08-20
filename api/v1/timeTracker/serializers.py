@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from .models import Project
 from .models import TimeLog
 
-
 class ProjectPrimaryKeyRelatedField(serializers.PrimaryKeyRelatedField):
     requires_context = True
     def get_queryset(self):

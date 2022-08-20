@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'django_nose',
-    'api.v1.timeTracker.apps.TimetrackerConfig',
+    'api.v1.time_tracker.apps.TimeTrackerConfig',
 ]
 
 MIDDLEWARE = [

@@ -2,6 +2,7 @@ name: test_timetracker
 on: [pull_request, push]
 jobs:
   test_project:
+    name: Tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

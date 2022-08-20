@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
                 ('start_at', models.DateTimeField(null=True)),
                 ('finish_at', models.DateTimeField(null=True)),
                 ('duration', models.IntegerField(null=True)),
-                ('project', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='timeTracker.project')),
+                ('project', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='time_tracker.project')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),

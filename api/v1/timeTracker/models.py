@@ -13,3 +13,11 @@ class TimeLog(models.Model):
     start_at = models.DateTimeField(null=True)
     finish_at = models.DateTimeField(null=True)
     duration = models.IntegerField(null=True)
+
+    def status(self):
+        if self.duration is not None or (self.start_at is not None and self.finish_at is not None):
+            return "FINISHED"
+        if self.duration is None and self.start_at is not None:
+            return "ONGOING"
+        return "INVALID"
+

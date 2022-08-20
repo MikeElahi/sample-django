@@ -8,6 +8,9 @@ class Project(models.Model):
     slug = models.SlugField()
     users = models.ManyToManyField(get_user_model())
 
+    class Meta:
+        ordering = ['id']
+
     def __str__(self) -> str:
         return str(self.title)
 
@@ -18,6 +21,9 @@ class TimeLog(models.Model):
     start_at = models.DateTimeField(null=True)
     finish_at = models.DateTimeField(null=True)
     duration = models.IntegerField(null=True)
+
+    class Meta:
+        ordering = ['id']
 
     def status(self):
         if self.duration is not None or (self.start_at is not None and self.finish_at is not None):

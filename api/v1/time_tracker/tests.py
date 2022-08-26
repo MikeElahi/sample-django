@@ -9,6 +9,7 @@ from django.utils.crypto import get_random_string
 from .models import Project, TimeLog
 from .serializers import ProjectSerializer
 
+
 class AbstractProjectTestCase(TestCase):
     @classmethod
     def setUpClass(cls) -> None:
@@ -98,8 +99,9 @@ class TimeLogStatusMethodsTest(AbstractProjectTestCase):
 class TimeLogDurationCalculation(AbstractProjectTestCase):
     def test_can_calculate_duration(self):
         """Unit Test for calculate_duration method on Timelog model"""
-        timelog = TimeLog.objects.create(project=self.project, user=self.user, start_at=timezone.now(
-        ), finish_at=timezone.now() + timedelta(hours=5))
+        timelog = TimeLog.objects.create(project=self.project, user=self.user,
+                                         start_at=timezone.now(),
+                                         finish_at=timezone.now() + timedelta(hours=5))
         assert timelog.duration == 5 * 3600
 
     def test_can_calculate_duration_before_save(self):
@@ -113,10 +115,11 @@ class TimeLogDurationCalculation(AbstractProjectTestCase):
 
 
 class ProjectTotalTimeTest(AbstractProjectTestCase):
-    def test_can_get_total_hours(self):
+    def test_can_get_total_time_spent(self):
+        "Unit test for get_total_time_spent"
         target_hours = 5
         for _ in range(target_hours):
             TimeLog.objects.create(project=self.project, user=self.user,
                                    duration=3600)
-        
+
         assert self.project.get_total_time_spent() == target_hours

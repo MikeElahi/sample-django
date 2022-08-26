@@ -20,7 +20,8 @@ class Project(models.Model):
         Returns:
             int: total number of hours spent on project
         """
-        return self.timelog_set.all().aggregate(models.Sum('duration'))['duration__sum'] // 3600
+        duration = self.timelog_set.all().aggregate(models.Sum('duration'))['duration__sum']
+        return duration // 3600 if duration else 0
 
 
 class TimeLog(models.Model):

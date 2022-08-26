@@ -18,9 +18,10 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ProjectSerializer(serializers.ModelSerializer):
+    total_time_spent = serializers.ReadOnlyField(source='get_total_time_spent')
     class Meta:
         model = Project
-        fields = ['id', 'title', 'slug', 'users']
+        fields = ['id', 'title', 'slug', 'users', 'total_time_spent']
 
 
 class TimeLogSerializer(serializers.ModelSerializer):
